@@ -1,5 +1,4 @@
-
-# Project Title
+# ReactJs Journey
 
 This is my ReactJs jounery repo. 
 Here I build several apps using React for web and React Native for mobile.

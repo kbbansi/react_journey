@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   
@@ -13,7 +13,7 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals(currentCourseGoals => [
       ...currentCourseGoals, 
-      enteredGoalText
+      {text: enteredGoalText, id: Math.random().toString()}
     ]);
 
   }
@@ -31,11 +31,21 @@ export default function App() {
       </View>
 
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal, index) => (
-        <Text style={styles.goalItem} key={index.toString()}>
-           {goal} 
-        </Text>
-        ))}
+      <FlatList data={courseGoals} 
+      renderItem={item => {
+        return(
+          <View style={styles.goalItem}>
+            <Text style={styles.goalText}>
+              {item.item.text} 
+            </Text>
+          </View>
+        );
+      }}
+      keyExtractor={(item, index) => {
+        return item.id
+      }}
+      alwaysBounceVertical={true}
+      />
       </View>
     </View>
   );
@@ -73,6 +83,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#5e0acc',
     padding: 8,
+  },
+
+  goalText: {
     color: 'white'
   },
 
@@ -88,3 +101,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#dddfec'
   }
 });
+
+/* <ScrollView alwaysBounceVertical={true}>
+          {courseGoals.map((goal, index) => (
+          <View style={styles.goalItem} key={index.toString()}>
+            <Text style={styles.goalText}>
+              {goal} 
+            </Text>
+          </View>
+        ))}
+      </ScrollView> */
